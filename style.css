@@ -22,12 +22,12 @@
 }
 
 html {
-    background: #101923;
+    background: radial-gradient(ellipse at 50% -15%, #1a2b1d 0%, var(--background) 52%);
 }
 
 body {
     margin: 0;
-    background: #101923;
+    background: radial-gradient(ellipse at 50% -15%, #1a2b1d 0%, var(--background) 52%);
     min-height: 100vh;
 }
 
