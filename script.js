@@ -112,18 +112,15 @@ const weapons = [
 
 /* =====================================
    CAMO CHALLENGES
-
-   Replace placeholder descriptions
-   with verified in-game requirements.
 ===================================== */
 
 const camos = [
 
-    ...Array.from({ length: 8 }, (_, i) => ({
-        name: `Military ${String(i + 1).padStart(2, "0")}`,
-        description: "Unlock by reaching the required weapon level.",
-        type: "LEVEL"
-    })),
+    {
+        name: "Base Camo",
+        description: "Complete the base weapon camo challenge.",
+        type: "BASE"
+    },
 
     {
         name: "Special Camo 01",
@@ -519,6 +516,41 @@ function updateStatistics() {
 
 
 /* =====================================
+   UPDATE INDIVIDUAL WEAPON
+===================================== */
+
+function updateWeaponDisplay(category, weapon, weaponElement) {
+
+    const completed = getCompletedCamos(
+        category,
+        weapon
+    );
+
+    const percentage = Math.round(
+        completed / camos.length * 100
+    );
+
+    const progressText = weaponElement.querySelector(
+        ".weapon-progress span"
+    );
+
+    const progressBar = weaponElement.querySelector(
+        ".mini-progress > div"
+    );
+
+    if (progressText) {
+        progressText.textContent =
+            `${completed}/${camos.length} CAMOS`;
+    }
+
+    if (progressBar) {
+        progressBar.style.width = `${percentage}%`;
+    }
+
+}
+
+
+/* =====================================
    CHECKBOX EVENTS
 ===================================== */
 
@@ -528,17 +560,85 @@ document.addEventListener("change", event => {
         'input[type="checkbox"][data-camo-id]'
     )) return;
 
-    const id = event.target.dataset.camoId;
+    const checkbox = event.target;
 
-    progress[id] = event.target.checked;
+    const id = checkbox.dataset.camoId;
+
+    progress[id] = checkbox.checked;
 
     saveProgress();
 
-    const search = document.getElementById(
-        "weapon-search"
-    ).value;
+    // Find the weapon accordion without rebuilding the page.
+    const weaponElement = checkbox.closest(".weapon");
 
-    renderCategories(search);
+    if (weaponElement) {
+
+        const weaponName = weaponElement.querySelector(
+            ".weapon-name"
+        ).textContent.trim();
+
+        const categoryName = weaponElement.querySelector(
+            ".weapon-type"
+        ).textContent.trim();
+
+        updateWeaponDisplay(
+            categoryName,
+            weaponName,
+            weaponElement
+        );
+
+    }
+
+    // Update category completion counts without closing accordions.
+    document.querySelectorAll(".category").forEach(categoryElement => {
+
+        const categoryName = categoryElement.querySelector(
+            ".category-name"
+        ).textContent.trim();
+
+        const categoryWeapons = weapons.find(
+            group => group.category === categoryName
+        );
+
+        if (!categoryWeapons) return;
+
+        const filteredWeaponElements = [
+            ...categoryElement.querySelectorAll(".weapon")
+        ];
+
+        const completed = filteredWeaponElements.reduce(
+            (total, element) => {
+
+                const name = element.querySelector(
+                    ".weapon-name"
+                ).textContent.trim();
+
+                return total + getCompletedCamos(
+                    categoryName,
+                    name
+                );
+
+            },
+            0
+        );
+
+        const total = filteredWeaponElements.length * camos.length;
+
+        const countElement = categoryElement.querySelector(
+            ".category-count"
+        );
+
+        if (countElement) {
+
+            countElement.textContent =
+                `${filteredWeaponElements.length} WEAPONS · ${completed}/${total}`;
+
+        }
+
+    });
+
+    // Update overall statistics.
+    updateStatistics();
 
 });
 
