@@ -12,19 +12,43 @@ const STORAGE_KEY = "nvg-mw4-camo-progress";
 const weapons = [
 
     {
-        category: "Assault Rifles",
-        icon: "AR",
-        guns: [
-            "Han 86",
-            "M4",
-            "Hyeon Burst",
-            "Patriot XMR",
-            "Kastov 762",
-            "Oden",
-            "Axion",
-            "Cronen Squall"
-        ]
-    },
+    category: "Assault Rifles",
+    icon: "AR",
+    guns: [
+        {
+            name: "Han 86",
+            image: "assets/images/weapons/assault-rifles/MW4_han86.png"
+        },
+        {
+            name: "M4",
+            image: "assets/images/weapons/assault-rifles/MW4_m4.png"
+        },
+        {
+            name: "Hyeon Burst",
+            image: "assets/images/weapons/assault-rifles/MW4_hyeon.png"
+        },
+        {
+            name: "Patriot XMR",
+            image: "assets/images/weapons/assault-rifles/MW4_patriot_xmr.png"
+        },
+        {
+            name: "Kastov 762",
+            image: "assets/images/weapons/assault-rifles/MW4_kastov762.png"
+        },
+        {
+            name: "Oden",
+            image: "assets/images/weapons/assault-rifles/MW4_oden.png"
+        },
+        {
+            name: "Axion",
+            image: "assets/images/weapons/assault-rifles/MW4_axion.png"
+        },
+        {
+            name: "Cronen Squall",
+            image: "assets/images/weapons/assault-rifles/MW4_cronen_squall.png"
+        }
+    ]
+},
 
     {
         category: "SMGs",
@@ -293,13 +317,17 @@ function renderCamos(category, weapon) {
    RENDER WEAPONS
 ===================================== */
 
+
 function renderWeapons(category, guns) {
 
     return guns.map(weapon => {
 
+        const weaponName = weapon.name || weapon;
+        const weaponImage = weapon.image || "";
+
         const completed = getCompletedCamos(
             category,
-            weapon
+            weaponName
         );
 
         const percentage = Math.round(
@@ -313,13 +341,17 @@ function renderWeapons(category, guns) {
                 <summary class="weapon-header">
 
                     <div class="weapon-image">
-                        ${escapeHTML(weapon)}
+                        <img
+                            src="${escapeHTML(weaponImage)}"
+                            alt="${escapeHTML(weaponName)}"
+                            onerror="this.style.display='none'"
+                        >
                     </div>
 
                     <div class="weapon-info">
 
                         <div class="weapon-name">
-                            ${escapeHTML(weapon)}
+                            ${escapeHTML(weaponName)}
                         </div>
 
                         <div class="weapon-type">
@@ -350,7 +382,7 @@ function renderWeapons(category, guns) {
 
                     <div class="challenge-grid">
 
-                        ${renderCamos(category, weapon)}
+                        ${renderCamos(category, weaponName)}
 
                     </div>
 
@@ -383,12 +415,14 @@ function renderCategories(search = "") {
 
         const filteredGuns = group.guns.filter(weapon => {
 
-            return (
-                weapon.toLowerCase().includes(query) ||
-                group.category.toLowerCase().includes(query)
-            );
+    const weaponName = weapon.name || weapon;
 
-        });
+    return (
+        weaponName.toLowerCase().includes(query) ||
+        group.category.toLowerCase().includes(query)
+    );
+
+});
 
         if (filteredGuns.length === 0) return;
 
@@ -396,9 +430,9 @@ function renderCategories(search = "") {
             (total, weapon) => {
 
                 return total + getCompletedCamos(
-                    group.category,
-                    weapon
-                );
+    group.category,
+    weapon.name || weapon
+);
 
             },
             0
@@ -474,10 +508,12 @@ function updateStatistics() {
 
         group.guns.forEach(weapon => {
 
-            const completed = getCompletedCamos(
-                group.category,
-                weapon
-            );
+    const weaponName = weapon.name || weapon;
+
+    const completed = getCompletedCamos(
+        group.category,
+        weaponName
+    );
 
             completedChallenges += completed;
 

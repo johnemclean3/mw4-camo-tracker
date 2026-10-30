@@ -71,15 +71,24 @@ button {
 }
 
 .brand-icon {
-    width: 30px;
-    height: 30px;
+    width: 76px;
+    height: 48px;
 
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border: 1px solid var(--green);
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
 
-    font-weight: bold;
+    color: #c8ff00;
+    background: #111914;
+
+    border: 1px solid rgba(200, 255, 0, 0.35);
+    border-radius: 6px;
+
+    flex-shrink: 0;
 }
 
 .header-status {
@@ -556,3 +565,29 @@ footer {
         font-size: 8px;
     }
 }
+
+/* =====================================
+   WEAPON IMAGES
+===================================== */
+
+.weapon-image {
+    width: 130px;
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.weapon-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
