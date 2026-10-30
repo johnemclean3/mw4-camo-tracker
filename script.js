@@ -549,7 +549,6 @@ function updateWeaponDisplay(category, weapon, weaponElement) {
 
 }
 
-
 /* =====================================
    CHECKBOX EVENTS
 ===================================== */
@@ -561,78 +560,100 @@ document.addEventListener("change", event => {
     )) return;
 
     const checkbox = event.target;
-
     const id = checkbox.dataset.camoId;
 
-    progress[id] = checkbox.checked;
+    // Identify the weapon and camo index.
+    const weaponElement = checkbox.closest(".weapon");
+
+    if (!weaponElement) return;
+
+    const weaponName = weaponElement.querySelector(
+        ".weapon-name"
+    ).textContent.trim();
+
+    const categoryName = weaponElement.querySelector(
+        ".weapon-type"
+    ).textContent.trim();
+
+    const camoIndex = camos.findIndex((camo, index) => {
+        return getCamoId(
+            categoryName,
+            weaponName,
+            index
+        ) === id;
+    });
+
+    if (camoIndex === -1) return;
+
+    // Apply progression hierarchy.
+    camos.forEach((camo, index) => {
+
+        const camoId = getCamoId(
+            categoryName,
+            weaponName,
+            index
+        );
+
+        const shouldBeChecked = checkbox.checked
+            ? index <= camoIndex
+            : index < camoIndex;
+
+        progress[camoId] = shouldBeChecked;
+
+        const relatedCheckbox = weaponElement.querySelector(
+            `input[data-camo-id="${CSS.escape(camoId)}"]`
+        );
+
+        if (relatedCheckbox) {
+            relatedCheckbox.checked = shouldBeChecked;
+        }
+
+    });
 
     saveProgress();
 
-    // Find the weapon accordion without rebuilding the page.
-    const weaponElement = checkbox.closest(".weapon");
+    // Update weapon progress without re-rendering.
+    updateWeaponDisplay(
+        categoryName,
+        weaponName,
+        weaponElement
+    );
 
-    if (weaponElement) {
-
-        const weaponName = weaponElement.querySelector(
-            ".weapon-name"
-        ).textContent.trim();
-
-        const categoryName = weaponElement.querySelector(
-            ".weapon-type"
-        ).textContent.trim();
-
-        updateWeaponDisplay(
-            categoryName,
-            weaponName,
-            weaponElement
-        );
-
-    }
-
-    // Update category completion counts without closing accordions.
+    // Update category progress.
     document.querySelectorAll(".category").forEach(categoryElement => {
 
         const categoryName = categoryElement.querySelector(
             ".category-name"
         ).textContent.trim();
 
-        const categoryWeapons = weapons.find(
-            group => group.category === categoryName
+        const categoryWeapons = categoryElement.querySelectorAll(
+            ".weapon"
         );
 
-        if (!categoryWeapons) return;
+        let completed = 0;
 
-        const filteredWeaponElements = [
-            ...categoryElement.querySelectorAll(".weapon")
-        ];
+        categoryWeapons.forEach(element => {
 
-        const completed = filteredWeaponElements.reduce(
-            (total, element) => {
+            const name = element.querySelector(
+                ".weapon-name"
+            ).textContent.trim();
 
-                const name = element.querySelector(
-                    ".weapon-name"
-                ).textContent.trim();
+            completed += getCompletedCamos(
+                categoryName,
+                name
+            );
 
-                return total + getCompletedCamos(
-                    categoryName,
-                    name
-                );
+        });
 
-            },
-            0
-        );
-
-        const total = filteredWeaponElements.length * camos.length;
+        const total = categoryWeapons.length * camos.length;
 
         const countElement = categoryElement.querySelector(
             ".category-count"
         );
 
         if (countElement) {
-
             countElement.textContent =
-                `${filteredWeaponElements.length} WEAPONS · ${completed}/${total}`;
-
+                `${categoryWeapons.length} WEAPONS · ${completed}/${total}`;
         }
 
     });
@@ -641,7 +662,6 @@ document.addEventListener("change", event => {
     updateStatistics();
 
 });
-
 
 /* =====================================
    SEARCH
