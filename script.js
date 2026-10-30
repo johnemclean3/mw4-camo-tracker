@@ -134,35 +134,166 @@ const weapons = [
 ];
 
 
+
 /* =====================================
    CAMO CHALLENGES
 ===================================== */
 
-const camos = [
+const baseCamo = {
+    name: "Base Camo",
+    description: "Complete the base weapon camo challenge.",
+    type: "BASE"
+};
 
-    {
-        name: "Base Camo",
-        description: "Complete the base weapon camo challenge.",
-        type: "BASE"
-    },
+const specialCamos = {
 
-    {
-        name: "Special Camo 01",
-        description: "Weapon-specific challenge.",
-        type: "SPECIAL"
-    },
+    "Han 86": [
+        {
+            name: "Smoke",
+            description: "Get 20 kills while mounted.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Stormwave",
+            description: "Get 50 kills with a silencer.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Red",
+            description: "Get 3 player kills without dying 15 times.",
+            type: "SPECIAL"
+        }
+    ],
 
-    {
-        name: "Special Camo 02",
-        description: "Weapon-specific challenge.",
-        type: "SPECIAL"
-    },
+    "M4": [
+        {
+            name: "Myraid",
+            description: "Get 20 point blank kills against players.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Night Ops",
+            description: "Get 20 kills while mounted.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Green",
+            description: "Get 25 kills from behind players.",
+            type: "SPECIAL"
+        }
+    ],
 
-    {
-        name: "Special Camo 03",
-        description: "Weapon-specific challenge.",
-        type: "SPECIAL"
-    },
+    "Hyeon Burst": [
+        {
+            name: "Ponderosa",
+            description: "Get 2 kills without reloading 10 times.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Red Rain",
+            description: "Get 20 longshot kills against players.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Kitty Kaos",
+            description: "Get 100 player kills while using a silencer.",
+            type: "SPECIAL"
+        }
+    ],
+
+    "Patriot XMR": [
+        {
+            name: "Samnim",
+            description: "Get 20 hip fire kills.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Raster Aux",
+            description: "Get 50 player kills using a silencer.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Yellow",
+            description: "Get 30 longshot kills against players.",
+            type: "SPECIAL"
+        }
+    ],
+
+    "Kastov 762": [
+        {
+            name: "Dune Sea",
+            description: "Get 3 kills without dying 10 times.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Scorch",
+            description: "Get 20 longshot kills against players.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Disperse",
+            description: "Get 30 hipfire kills against players.",
+            type: "SPECIAL"
+        }
+    ],
+
+    "Oden": [
+        {
+            name: "Dark Moss",
+            description: "Get 25 player kills with the MIRI 40mm grenade launcher.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Shale",
+            description: "Get 2 kills without reloading 10 times against players.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Hot Rod",
+            description: "Get 100 kills while ADS against players.",
+            type: "SPECIAL"
+        }
+    ],
+
+    "Axion": [
+        {
+            name: "Splinter Rock",
+            description: "Get 20 longshot kills against players.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Sunset Tropic",
+            description: "Get 25 player kills with the MIRI 40mm grenade launcher.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Cyan",
+            description: "Get 2 kills without reloading 25 times against players.",
+            type: "SPECIAL"
+        }
+    ],
+
+    "Cronen Squall": [
+        {
+            name: "Oni",
+            description: "Get 20 point blank kills against players.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Optical Reverb",
+            description: "Get 3 kills without dying 15 times against players.",
+            type: "SPECIAL"
+        },
+        {
+            name: "Urban Smoke",
+            description: "Get 20 mounted kills against players.",
+            type: "SPECIAL"
+        }
+    ]
+
+};
+
+const masteryCamos = [
 
     {
         name: "Gold",
@@ -183,6 +314,36 @@ const camos = [
     }
 
 ];
+
+// Fallback challenges for weapons without supplied requirements.
+const defaultSpecialCamos = [
+    {
+        name: "Special Camo 01",
+        description: "Weapon-specific challenge.",
+        type: "SPECIAL"
+    },
+    {
+        name: "Special Camo 02",
+        description: "Weapon-specific challenge.",
+        type: "SPECIAL"
+    },
+    {
+        name: "Special Camo 03",
+        description: "Weapon-specific challenge.",
+        type: "SPECIAL"
+    }
+];
+
+function getWeaponCamos(weapon) {
+
+    return [
+        baseCamo,
+        ...(specialCamos[weapon] || defaultSpecialCamos),
+        ...masteryCamos
+    ];
+
+}
+
 
 
 /* =====================================
@@ -233,9 +394,12 @@ function getCamoId(category, weapon, index) {
 
 }
 
+
 function getCompletedCamos(category, weapon) {
 
-    return camos.filter((camo, index) => {
+    const weaponCamos = getWeaponCamos(weapon);
+
+    return weaponCamos.filter((camo, index) => {
 
         return progress[
             getCamoId(category, weapon, index)
@@ -244,6 +408,7 @@ function getCompletedCamos(category, weapon) {
     }).length;
 
 }
+
 
 function escapeHTML(value) {
 
@@ -262,9 +427,12 @@ function escapeHTML(value) {
    RENDER CAMO CHALLENGES
 ===================================== */
 
+
 function renderCamos(category, weapon) {
 
-    return camos.map((camo, index) => {
+    const weaponCamos = getWeaponCamos(weapon);
+
+    return weaponCamos.map((camo, index) => {
 
         const camoId = getCamoId(
             category,
@@ -313,6 +481,7 @@ function renderCamos(category, weapon) {
 }
 
 
+
 /* =====================================
    RENDER WEAPONS
 ===================================== */
@@ -330,9 +499,11 @@ function renderWeapons(category, guns) {
             weaponName
         );
 
-        const percentage = Math.round(
-            completed / camos.length * 100
-        );
+        const totalCamos = getWeaponCamos(weaponName).length;
+
+const percentage = Math.round(
+    completed / totalCamos * 100
+);
 
         return `
 
@@ -363,7 +534,7 @@ function renderWeapons(category, guns) {
                     <div class="weapon-progress">
 
                         <span>
-                            ${completed}/${camos.length} CAMOS
+                            ${completed}/${totalCamos} CAMOS
                         </span>
 
                         <div class="mini-progress">
@@ -401,6 +572,11 @@ function renderWeapons(category, guns) {
    RENDER CATEGORIES
 ===================================== */
 
+
+/* =====================================
+   RENDER CATEGORIES
+===================================== */
+
 function renderCategories(search = "") {
 
     const container = document.getElementById(
@@ -413,33 +589,48 @@ function renderCategories(search = "") {
 
     weapons.forEach(group => {
 
+        // Filter weapons based on search.
         const filteredGuns = group.guns.filter(weapon => {
 
-    const weaponName = weapon.name || weapon;
+            const weaponName = weapon.name || weapon;
 
-    return (
-        weaponName.toLowerCase().includes(query) ||
-        group.category.toLowerCase().includes(query)
-    );
+            return (
+                weaponName.toLowerCase().includes(query) ||
+                group.category.toLowerCase().includes(query)
+            );
 
-});
+        });
 
         if (filteredGuns.length === 0) return;
 
+        // Calculate completed challenges.
         const completed = filteredGuns.reduce(
-            (total, weapon) => {
+            (sum, weapon) => {
 
-                return total + getCompletedCamos(
-    group.category,
-    weapon.name || weapon
-);
+                const weaponName = weapon.name || weapon;
+
+                return sum + getCompletedCamos(
+                    group.category,
+                    weaponName
+                );
 
             },
             0
         );
 
-        const total = filteredGuns.length * camos.length;
+        // Calculate total challenges for this category.
+        const total = filteredGuns.reduce(
+            (sum, weapon) => {
 
+                const weaponName = weapon.name || weapon;
+
+                return sum + getWeaponCamos(weaponName).length;
+
+            },
+            0
+        );
+
+        // Create category accordion.
         const categoryElement = document.createElement("details");
 
         categoryElement.className = "category";
@@ -487,6 +678,7 @@ function renderCategories(search = "") {
 }
 
 
+
 /* =====================================
    UPDATE STATISTICS
 ===================================== */
@@ -498,7 +690,17 @@ function updateStatistics() {
         0
     );
 
-    const totalChallenges = totalWeapons * camos.length;
+    const totalChallenges = weapons.reduce((total, group) => {
+
+    return total + group.guns.reduce((sum, weapon) => {
+
+        const weaponName = weapon.name || weapon;
+
+        return sum + getWeaponCamos(weaponName).length;
+
+    }, 0);
+
+}, 0);
 
     let completedChallenges = 0;
     let startedWeapons = 0;
@@ -521,9 +723,11 @@ function updateStatistics() {
                 startedWeapons++;
             }
 
-            if (completed === camos.length) {
-                completedWeapons++;
-            }
+            const totalCamos = getWeaponCamos(weaponName).length;
+
+if (completed === totalCamos) {
+    completedWeapons++;
+}
 
         });
 
@@ -551,11 +755,14 @@ function updateStatistics() {
 }
 
 
+
 /* =====================================
    UPDATE INDIVIDUAL WEAPON
 ===================================== */
 
 function updateWeaponDisplay(category, weapon, weaponElement) {
+
+    const totalCamos = getWeaponCamos(weapon).length;
 
     const completed = getCompletedCamos(
         category,
@@ -563,7 +770,7 @@ function updateWeaponDisplay(category, weapon, weaponElement) {
     );
 
     const percentage = Math.round(
-        completed / camos.length * 100
+        completed / totalCamos * 100
     );
 
     const progressText = weaponElement.querySelector(
@@ -576,7 +783,7 @@ function updateWeaponDisplay(category, weapon, weaponElement) {
 
     if (progressText) {
         progressText.textContent =
-            `${completed}/${camos.length} CAMOS`;
+            `${completed}/${totalCamos} CAMOS`;
     }
 
     if (progressBar) {
@@ -584,6 +791,7 @@ function updateWeaponDisplay(category, weapon, weaponElement) {
     }
 
 }
+
 
 /* =====================================
    CHECKBOX EVENTS
@@ -598,7 +806,6 @@ document.addEventListener("change", event => {
     const checkbox = event.target;
     const id = checkbox.dataset.camoId;
 
-    // Identify the weapon and camo index.
     const weaponElement = checkbox.closest(".weapon");
 
     if (!weaponElement) return;
@@ -611,18 +818,22 @@ document.addEventListener("change", event => {
         ".weapon-type"
     ).textContent.trim();
 
-    const camoIndex = camos.findIndex((camo, index) => {
+    const weaponCamos = getWeaponCamos(weaponName);
+
+    const camoIndex = weaponCamos.findIndex((camo, index) => {
+
         return getCamoId(
             categoryName,
             weaponName,
             index
         ) === id;
+
     });
 
     if (camoIndex === -1) return;
 
     // Apply progression hierarchy.
-    camos.forEach((camo, index) => {
+    weaponCamos.forEach((camo, index) => {
 
         const camoId = getCamoId(
             categoryName,
@@ -648,7 +859,7 @@ document.addEventListener("change", event => {
 
     saveProgress();
 
-    // Update weapon progress without re-rendering.
+    // Update weapon progress.
     updateWeaponDisplay(
         categoryName,
         weaponName,
@@ -658,15 +869,16 @@ document.addEventListener("change", event => {
     // Update category progress.
     document.querySelectorAll(".category").forEach(categoryElement => {
 
-        const categoryName = categoryElement.querySelector(
+        const category = categoryElement.querySelector(
             ".category-name"
         ).textContent.trim();
 
-        const categoryWeapons = categoryElement.querySelectorAll(
-            ".weapon"
-        );
+        const categoryWeapons = [
+            ...categoryElement.querySelectorAll(".weapon")
+        ];
 
         let completed = 0;
+        let total = 0;
 
         categoryWeapons.forEach(element => {
 
@@ -674,22 +886,20 @@ document.addEventListener("change", event => {
                 ".weapon-name"
             ).textContent.trim();
 
-            completed += getCompletedCamos(
-                categoryName,
-                name
-            );
+            completed += getCompletedCamos(category, name);
+            total += getWeaponCamos(name).length;
 
         });
-
-        const total = categoryWeapons.length * camos.length;
 
         const countElement = categoryElement.querySelector(
             ".category-count"
         );
 
         if (countElement) {
+
             countElement.textContent =
                 `${categoryWeapons.length} WEAPONS · ${completed}/${total}`;
+
         }
 
     });
@@ -698,6 +908,7 @@ document.addEventListener("change", event => {
     updateStatistics();
 
 });
+
 
 /* =====================================
    SEARCH
