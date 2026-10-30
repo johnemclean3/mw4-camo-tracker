@@ -22,34 +22,30 @@
 }
 
 html {
-    background: radial-gradient(ellipse at 50% -15%, #1a2b1d 0%, var(--background) 52%);
-}
-
-body {
-    margin: 0;
-    background: radial-gradient(ellipse at 50% -15%, #1a2b1d 0%, var(--background) 52%);
-    min-height: 100vh;
-}
-
-/* Extend the page background behind the iPhone status bar */
-@supports (padding: env(safe-area-inset-top)) {
-    body {
-        padding-top: env(safe-area-inset-top);
-    }
-}
-
-body {
+    min-height: 100%;
+    background-color: #090d0b;
     background:
         radial-gradient(
             ellipse at 50% -15%,
             #1a2b1d 0%,
-            var(--background) 52%
+            #090d0b 52%
+        );
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    background:
+        radial-gradient(
+            ellipse at 50% -15%,
+            #1a2b1d 0%,
+            #090d0b 52%
         );
 
     color: var(--text);
-
     font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
 }
 
 button,
