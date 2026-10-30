@@ -21,6 +21,23 @@
     box-sizing: border-box;
 }
 
+html {
+    background: #101923;
+}
+
+body {
+    margin: 0;
+    background: #101923;
+    min-height: 100vh;
+}
+
+/* Extend the page background behind the iPhone status bar */
+@supports (padding: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+    }
+}
+
 body {
     background:
         radial-gradient(
