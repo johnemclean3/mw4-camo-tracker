@@ -11,42 +11,18 @@ const STORAGE_KEY = "nvg-mw4-camo-progress";
 
 const weapons = [
 
-    {
+{
     category: "Assault Rifles",
     icon: "AR",
     guns: [
-        {
-            name: "Han 86",
-            image: "assets/images/weapons/assault-rifles/MW4_han86.png"
-        },
-        {
-            name: "M4",
-            image: "assets/images/weapons/assault-rifles/MW4_m4.png"
-        },
-        {
-            name: "Hyeon Burst",
-            image: "assets/images/weapons/assault-rifles/MW4_hyeon.png"
-        },
-        {
-            name: "Patriot XMR",
-            image: "assets/images/weapons/assault-rifles/MW4_patriot_xmr.png"
-        },
-        {
-            name: "Kastov 762",
-            image: "assets/images/weapons/assault-rifles/MW4_kastov762.png"
-        },
-        {
-            name: "Oden",
-            image: "assets/images/weapons/assault-rifles/MW4_oden.png"
-        },
-        {
-            name: "Axion",
-            image: "assets/images/weapons/assault-rifles/MW4_axion.png"
-        },
-        {
-            name: "Cronen Squall",
-            image: "assets/images/weapons/assault-rifles/MW4_cronen_squall.png"
-        }
+        "Han 86",
+        "M4",
+        "Hyeon Burst",
+        "Patriot XMR",
+        "Kastov 762",
+        "Oden",
+        "Axion",
+        "Cronen Squall"
     ]
 },
 
@@ -492,7 +468,6 @@ function renderWeapons(category, guns) {
     return guns.map(weapon => {
 
         const weaponName = weapon.name || weapon;
-        const weaponImage = weapon.image || "";
 
         const completed = getCompletedCamos(
             category,
@@ -501,26 +476,81 @@ function renderWeapons(category, guns) {
 
         const totalCamos = getWeaponCamos(weaponName).length;
 
-const percentage = Math.round(
-    completed / totalCamos * 100
-);
+        const percentage = Math.round(
+            completed / totalCamos * 100
+        );
+
+        // Display images only when a matching image path is provided.
+        const weaponImages = {
+    // Assault Rifles
+    "Han 86": "./assets/images/weapons/assault-rifles/MW4_han86.png",
+    "M4": "./assets/images/weapons/assault-rifles/MW4_m4.png",
+    "Hyeon Burst": "./assets/images/weapons/assault-rifles/MW4_hyeon.png",
+    "Patriot XMR": "./assets/images/weapons/assault-rifles/MW4_patriot_xmr.png",
+    "Kastov 762": "./assets/images/weapons/assault-rifles/MW4_kastov762.png",
+    "Oden": "./assets/images/weapons/assault-rifles/MW4_oden.png",
+    "Axion": "./assets/images/weapons/assault-rifles/MW4_axion.png",
+    "Cronen Squall": "./assets/images/weapons/assault-rifles/MW4_cronen_squall.png",
+
+    // Launchers
+    "PM-40 Anvil": "./assets/images/weapons/launchers/MW4_anvil.png",
+    "JOKR": "./assets/images/weapons/launchers/MW4_jokr.png",
+    "PILA": "./assets/images/weapons/launchers/MW4_pila.png",
+    "RPG-8": "./assets/images/weapons/launchers/MW4_rpg.png",
+
+    // LMGs
+    "APOC-338": "./assets/images/weapons/lmgs/MW4_apoc.png",
+    "FiNN LMG": "./assets/images/weapons/lmgs/MW4_finn.png",
+    "Type 73": "./assets/images/weapons/lmgs/MW4_type73.png",
+
+    // Marksman Rifles
+    "MAR-9": "./assets/images/weapons/marksman-rifles/MW4_mar.png",
+    "Mosin-Nagant": "./assets/images/weapons/marksman-rifles/MW4_mosin.png",
+    "Oris 8.6": "./assets/images/weapons/marksman-rifles/MW4_oris.png",
+
+    // Melee
+    "FSS Carbon Edge 1095": "./assets/images/weapons/melee/MW4_carbon_edge.png",
+
+    // Pistols
+    ".50 GS": "./assets/images/weapons/pistols/MW4_50gs.png",
+    "Krait P68": "./assets/images/weapons/pistols/MW4_krait.png",
+    "Mojave .357": "./assets/images/weapons/pistols/MW4_mojave.png",
+    "Sang 9mm": "./assets/images/weapons/pistols/MW4_sang.png",
+
+    // Shotguns
+    "Rezi 12": "./assets/images/weapons/shotguns/MW4_rezi12.png",
+    "Warlord": "./assets/images/weapons/shotguns/MW4_warlord.png",
+
+    // SMGs
+    "ISO Nightshade": "./assets/images/weapons/smgs/MW4_nightshade.png",
+    "X-58 Nyx": "./assets/images/weapons/smgs/MW4_nyx.png",
+    "PPSh-41": "./assets/images/weapons/smgs/MW4_ppsh.png",
+    "Wz.55 Striga": "./assets/images/weapons/smgs/MW4_striga.png",
+    "VEL 46": "./assets/images/weapons/smgs/MW4_vel.png",
+
+    // Sniper Rifles
+    "Astaroth .57": "./assets/images/weapons/sniper-rifles/MW4_astaroth.png",
+    "Signal 50": "./assets/images/weapons/sniper-rifles/MW4_signal50.png",
+    "KG-7 Vulcan": "./assets/images/weapons/sniper-rifles/MW4_vulcan.png"
+};
+
+const weaponImage = weaponImages[weaponName] || "";
 
         return `
-
             <details class="weapon">
 
                 <summary class="weapon-header">
 
                     <div class="weapon-image">
-                        <img
-                            src="${escapeHTML(weaponImage)}"
-                            alt="${escapeHTML(weaponName)}"
-                            onerror="this.style.display='none'"
-                        >
+                        ${weaponImage ? `
+                            <img
+                                src="${weaponImage}"
+                                alt="${escapeHTML(weaponName)}"
+                            >
+                        ` : ""}
                     </div>
 
                     <div class="weapon-info">
-
                         <div class="weapon-name">
                             ${escapeHTML(weaponName)}
                         </div>
@@ -528,21 +558,16 @@ const percentage = Math.round(
                         <div class="weapon-type">
                             ${escapeHTML(category)}
                         </div>
-
                     </div>
 
                     <div class="weapon-progress">
-
                         <span>
                             ${completed}/${totalCamos} CAMOS
                         </span>
 
                         <div class="mini-progress">
-
                             <div style="width: ${percentage}%"></div>
-
                         </div>
-
                     </div>
 
                     <span class="category-arrow">›</span>
@@ -550,17 +575,12 @@ const percentage = Math.round(
                 </summary>
 
                 <div class="challenge-area">
-
                     <div class="challenge-grid">
-
                         ${renderCamos(category, weaponName)}
-
                     </div>
-
                 </div>
 
             </details>
-
         `;
 
     }).join("");
