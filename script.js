@@ -4,6 +4,8 @@
 ===================================== */
 
 const STORAGE_KEY = "nvg-mw4-camo-progress";
+const PROGRESS_VERSION_KEY = `${STORAGE_KEY}-version`;
+const PROGRESS_VERSION = "3";
 
 /* =====================================
    WEAPON DATABASE
@@ -72,7 +74,7 @@ const weapons = [
         icon: "SR",
         guns: [
             "KG-7 Vulcan",
-            "Astaroth .57",
+            "Astaroth .50",
             "Signal 50"
         ]
     },
@@ -93,7 +95,7 @@ const weapons = [
         icon: "LCH",
         guns: [
             "PILA",
-            "RPG-8",
+            "RPG-7",
             "JOKR",
             "PM-40 Anvil"
         ]
@@ -116,7 +118,7 @@ const weapons = [
 ===================================== */
 
 const baseCamo = {
-    name: "Base Camo",
+    name: "Military Camos",
     description: "Complete the base weapon camo challenge.",
     type: "BASE"
 };
@@ -265,6 +267,156 @@ const specialCamos = {
             description: "Get 20 mounted kills against players.",
             type: "SPECIAL"
         }
+    ],
+
+    "VEL 46": [
+        { name: "Ghast", description: "Get 20 player kills while prone.", type: "SPECIAL" },
+        { name: "Gunmetal", description: "Get 20 headshot kills against players.", type: "SPECIAL" },
+        { name: "Jungle Shadow", description: "Get 50 player kills while aiming down sights.", type: "SPECIAL" }
+    ],
+
+    "Wz.55 Striga": [
+        { name: "Dark tan", description: "Get 40 point blank kills against players.", type: "SPECIAL" },
+        { name: "Rattlesnake", description: "Get 20 player kills while jumping.", type: "SPECIAL" },
+        { name: "Stellation", description: "Get 50 player kills using a silencer.", type: "SPECIAL" }
+    ],
+
+    "X-58 Nyx": [
+        { name: "Carbonated", description: "Get 20 longshot kills against players.", type: "SPECIAL" },
+        { name: "Lime", description: "Get 40 headshot kills against players.", type: "SPECIAL" },
+        { name: "Sniper veil", description: "Get 20 player kills while moving.", type: "SPECIAL" }
+    ],
+
+    "PPSh-41": [
+        { name: "Blackwell", description: "Get 10 double kills against players.", type: "SPECIAL" },
+        { name: "Currents", description: "Get 100 player kills while aiming down sights.", type: "SPECIAL" },
+        { name: "Iron", description: "Get 20 longshot kills against players.", type: "SPECIAL" }
+    ],
+
+    "ISO Nightshade": [
+        { name: "Asphalt", description: "Get 50 player kills while aiming down sights.", type: "SPECIAL" },
+        { name: "Black Topo", description: "Get 10 double kills against players.", type: "SPECIAL" },
+        { name: "Brown", description: "Get 3 player kills without dying 15 times.", type: "SPECIAL" }
+    ],
+
+    "Warlord": [
+        { name: "Corrupted Clay", description: "Get 10 double kills against players.", type: "SPECIAL" },
+        { name: "Magma Ire", description: "Get 50 player kills while prone.", type: "SPECIAL" },
+        { name: "Redshift", description: "Get 20 player kills while moving.", type: "SPECIAL" }
+    ],
+
+    "Rezi 12": [
+        { name: "Brushstroke", description: "Get 10 longshot kills against players.", type: "SPECIAL" },
+        { name: "Struck Oil", description: "Get 20 point-blank kills against players.", type: "SPECIAL" },
+        { name: "White Pine", description: "Get 40 player kills while jumping.", type: "SPECIAL" }
+    ],
+
+    "APOC-338": [
+        { name: "Mineral", description: "Get 20 longshot kills against players.", type: "SPECIAL" },
+        { name: "Phantom Flux", description: "Get 20 hipfire kills against players.", type: "SPECIAL" },
+        { name: "Tiger Swipe", description: "Get 100 player kills while prone.", type: "SPECIAL" }
+    ],
+
+    "Type 73": [
+        { name: "Ash Pine", description: "Get 20 mounted kills against players.", type: "SPECIAL" },
+        { name: "Foxtrail", description: "Get 40 headshot kills against players.", type: "SPECIAL" },
+        { name: "Outcrop", description: "Get 10 double kills against players.", type: "SPECIAL" }
+    ],
+
+    "FiNN LMG": [
+        { name: "Desert Tactics", description: "Get 20 point-blank kills against players.", type: "SPECIAL" },
+        { name: "Green Tiger", description: "Get 2 player kills without reloading 10 times.", type: "SPECIAL" },
+        { name: "Thunderhead", description: "Get 30 longshot kills against players.", type: "SPECIAL" }
+    ],
+
+    "Mosin-Nagant": [
+        { name: "Fractal Snow", description: "Get 2 player kills without reloading.", type: "SPECIAL" },
+        { name: "Ice-Sheer", description: "Get 25 headshot kills against players.", type: "SPECIAL" },
+        { name: "Sticker Shock", description: "Get 100 player kills while focused.", type: "SPECIAL" }
+    ],
+
+    "Oris 8.6": [
+        { name: "Deep Space", description: "Get 3 player kills without dying 15 times.", type: "SPECIAL" },
+        { name: "Fire Topo", description: "Get 20 double kills against players.", type: "SPECIAL" },
+        { name: "Hibiscus", description: "Get 10 quickscope kills against players.", type: "SPECIAL" }
+    ],
+
+    "MAR-9": [
+        { name: "Fungal Grid", description: "Get 25 player kills while crouched.", type: "SPECIAL" },
+        { name: "Mangrove", description: "Get 20 mounted kills against players.", type: "SPECIAL" },
+        { name: "White", description: "Get 30 longshot kills against players.", type: "SPECIAL" }
+    ],
+
+    "Astaroth .50": [
+        { name: "Backcountry", description: "Get 20 player kills.", type: "SPECIAL" },
+        { name: "Dread Plague", description: "Get 2 player kills within 5 seconds 20 times.", type: "SPECIAL" },
+        { name: "Dry Brush", description: "Get 3 player kills without dying 10 times.", type: "SPECIAL" }
+    ],
+
+    "Signal 50": [
+        { name: "Anaconda", description: "Get 2 player kills within 5 seconds 10 times.", type: "SPECIAL" },
+        { name: "Ripplewave", description: "Get 20 quickscope kills against players.", type: "SPECIAL" },
+        { name: "Sunburn", description: "Get 40 longshot kills against players.", type: "SPECIAL" }
+    ],
+
+    "KG-7 Vulcan": [
+        { name: "Spidersilk", description: "Get 20 headshot kills against players.", type: "SPECIAL" },
+        { name: "Tension", description: "Get 2 player kills without taking damage 20 times.", type: "SPECIAL" },
+        { name: "Treeline", description: "Get 10 hipfire kills against players.", type: "SPECIAL" }
+    ],
+
+    "Mojave .357": [
+        { name: "Garland", description: "Get 30 point-blank kills against players.", type: "SPECIAL" },
+        { name: "Miami", description: "Get 15 one-shot kills against players.", type: "SPECIAL" },
+        { name: "Wallpaper", description: "Get 2 player kills without reloading 10 times.", type: "SPECIAL" }
+    ],
+
+    ".50 GS": [
+        { name: "Frosted", description: "Get 20 headshot kills against players.", type: "SPECIAL" },
+        { name: "Red Tiger", description: "Get 30 point-blank kills against players.", type: "SPECIAL" },
+        { name: "Splatter Ops", description: "Get 7 double kills against players.", type: "SPECIAL" }
+    ],
+
+    "Krait P68": [
+        { name: "Off Grid", description: "Get 15 player kills while ledge hanging.", type: "SPECIAL" },
+        { name: "Smoke Screen", description: "Get 50 player kills while using a silencer.", type: "SPECIAL" },
+        { name: "Urban Flamingo", description: "Get 15 point-blank kills against players.", type: "SPECIAL" }
+    ],
+
+    "Sang 9mm": [
+        { name: "Autumn", description: "Get 25 player kills while aiming down sights.", type: "SPECIAL" },
+        { name: "Snakeskin", description: "Get 3 player kills without dying 5 times.", type: "SPECIAL" },
+        { name: "Spacetime", description: "Get 50 player kills while using akimbo.", type: "SPECIAL" }
+    ],
+
+    "PM-40 Anvil": [
+        { name: "Night Snow", description: "Get 25 direct shot kills against players.", type: "SPECIAL" },
+        { name: "Recursive", description: "Get 2 kills without reloading 5 times against players.", type: "SPECIAL" },
+        { name: "Urban Standard", description: "Get 40 player kills while moving.", type: "SPECIAL" }
+    ],
+
+    "JOKR": [
+        { name: "Blue Tiger", description: "Destroy 30 killstreaks or vehicles.", type: "SPECIAL" },
+        { name: "Tectonic", description: "Get 10 longshot kills against players.", type: "SPECIAL" },
+        { name: "Thicket", description: "Get 5 double kills against players.", type: "SPECIAL" }
+    ],
+
+    "RPG-7": [
+        { name: "Bubblegum Ops", description: "Destroy 30 killstreaks or vehicles.", type: "SPECIAL" },
+        { name: "Digi Bark", description: "Get 10 player kills while prone.", type: "SPECIAL" },
+        { name: "Stone Bits", description: "Get 10 longshot kills against players.", type: "SPECIAL" }
+    ],
+
+    "PILA": [
+        { name: "Digital Fall", description: "Destroy 30 killstreaks or vehicles.", type: "SPECIAL" },
+        { name: "Frontier", description: "Get 10 direct shot kills against players.", type: "SPECIAL" },
+        { name: "Sandwash", description: "Get 5 double kills against players.", type: "SPECIAL" }
+    ],
+
+    "FSS Carbon Edge 1095": [
+        { name: "Deathbed", description: "Get 2 kills in 5 seconds against players 25 times.", type: "SPECIAL" },
+        { name: "Raster Lite", description: "Get 25 player kills while jumping.", type: "SPECIAL" },
+        { name: "Stockpile", description: "Get 25 player kills using heavy melee finisher.", type: "SPECIAL" }
     ]
 
 };
@@ -291,31 +443,75 @@ const masteryCamos = [
 
 ];
 
-// Fallback challenges for weapons without supplied requirements.
-const defaultSpecialCamos = [
+const assaultRifleMasteryCamos = [
     {
-        name: "Special Camo 01",
-        description: "Weapon-specific challenge.",
-        type: "SPECIAL"
+        name: "Gold",
+        description: "Get 15 player kills in a single match.",
+        type: "MASTERY"
     },
     {
-        name: "Special Camo 02",
-        description: "Weapon-specific challenge.",
-        type: "SPECIAL"
+        name: "Platinum",
+        description: "Get 50 headshot kills against players.",
+        type: "MASTERY"
     },
     {
-        name: "Special Camo 03",
-        description: "Weapon-specific challenge.",
-        type: "SPECIAL"
+        name: "Harmonic Break",
+        description: "Get 25 double kills against players.",
+        type: "MASTERY"
     }
 ];
 
-function getWeaponCamos(weapon) {
+const masteryCamosByCategory = {
+    "SMGs": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 25 player kills from behind.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 50 hipfire kills against players.", type: "MASTERY" }
+    ],
+    "Shotguns": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 125 hipfire kills.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 2 player kills without reloading 25 times.", type: "MASTERY" }
+    ],
+    "LMGs": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 3 player kills without dying 15 times.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 2 player kills without releasing the trigger 25 times.", type: "MASTERY" }
+    ],
+    "Marksman Rifles": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 75 player kills while prone.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 75 one-shot kills against players.", type: "MASTERY" }
+    ],
+    "Sniper Rifles": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 75 player kills while prone.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 75 one-shot kills against players.", type: "MASTERY" }
+    ],
+    "Pistols": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 20 player kills from behind.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 40 hipfire kills against players.", type: "MASTERY" }
+    ],
+    "Launchers": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 2 player kills without taking damage 15 times.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 10 player kills in a match 7 times.", type: "MASTERY" }
+    ],
+    "Melee": [
+        { name: "Gold", description: "Get 15 player kills in a single match.", type: "MASTERY" },
+        { name: "Platinum", description: "Get 3 player kills without dying 15 times.", type: "MASTERY" },
+        { name: "Harmonic Break", description: "Get 25 player kills from behind.", type: "MASTERY" }
+    ]
+};
+
+function getWeaponCamos(weapon, category) {
 
     return [
         baseCamo,
-        ...(specialCamos[weapon] || defaultSpecialCamos),
-        ...masteryCamos
+        ...(specialCamos[weapon] || []),
+        ...(category === "Assault Rifles"
+            ? assaultRifleMasteryCamos
+            : masteryCamosByCategory[category] || masteryCamos)
     ];
 
 }
@@ -335,6 +531,93 @@ function loadProgress() {
         progress = JSON.parse(
             localStorage.getItem(STORAGE_KEY)
         ) || {};
+
+        const savedVersion = localStorage.getItem(PROGRESS_VERSION_KEY);
+
+        if (savedVersion !== PROGRESS_VERSION) {
+            [
+                ["Sniper Rifles", "Astaroth .57", "Astaroth .50"],
+                ["Launchers", "RPG-8", "RPG-7"]
+            ].forEach(([category, oldWeapon, newWeapon]) => {
+                for (let index = 0; index <= 6; index++) {
+                    const oldId = getCamoId(category, oldWeapon, index);
+                    const newId = getCamoId(category, newWeapon, index);
+
+                    if (progress[oldId]) {
+                        progress[newId] = progress[oldId];
+                    }
+
+                    delete progress[oldId];
+                }
+            });
+
+            weapons
+                .filter(group => group.category !== "Assault Rifles")
+                .forEach(group => {
+                    group.guns.forEach(weapon => {
+                        if (savedVersion !== "2" &&
+                            savedVersion !== PROGRESS_VERSION) {
+                            [1, 2, 3].forEach(oldIndex => {
+                                delete progress[getCamoId(
+                                    group.category,
+                                    weapon,
+                                    oldIndex
+                                )];
+                            });
+
+                            [4, 5, 6].forEach(oldIndex => {
+                                const oldId = getCamoId(
+                                    group.category,
+                                    weapon,
+                                    oldIndex
+                                );
+                                const newId = getCamoId(
+                                    group.category,
+                                    weapon,
+                                    oldIndex - 3
+                                );
+
+                                if (progress[oldId]) {
+                                    progress[newId] = progress[oldId];
+                                }
+
+                                delete progress[oldId];
+                            });
+                        }
+
+                        if (specialCamos[weapon]) {
+                            const priorMasteryProgress = [1, 2, 3].map(index =>
+                                progress[getCamoId(
+                                    group.category,
+                                    weapon,
+                                    index
+                                )]
+                            );
+
+                            [1, 2, 3].forEach(index => {
+                                delete progress[getCamoId(
+                                    group.category,
+                                    weapon,
+                                    index
+                                )];
+                            });
+
+                            priorMasteryProgress.forEach((completed, index) => {
+                                if (completed) {
+                                    progress[getCamoId(
+                                        group.category,
+                                        weapon,
+                                        index + 4
+                                    )] = true;
+                                }
+                            });
+                        }
+                    });
+                });
+
+            saveProgress();
+            localStorage.setItem(PROGRESS_VERSION_KEY, PROGRESS_VERSION);
+        }
 
     } catch (error) {
 
@@ -373,7 +656,7 @@ function getCamoId(category, weapon, index) {
 
 function getCompletedCamos(category, weapon) {
 
-    const weaponCamos = getWeaponCamos(weapon);
+    const weaponCamos = getWeaponCamos(weapon, category);
 
     return weaponCamos.filter((camo, index) => {
 
@@ -406,7 +689,7 @@ function escapeHTML(value) {
 
 function renderCamos(category, weapon) {
 
-    const weaponCamos = getWeaponCamos(weapon);
+    const weaponCamos = getWeaponCamos(weapon, category);
 
     return weaponCamos.map((camo, index) => {
 
@@ -474,7 +757,7 @@ function renderWeapons(category, guns) {
             weaponName
         );
 
-        const totalCamos = getWeaponCamos(weaponName).length;
+        const totalCamos = getWeaponCamos(weaponName, category).length;
 
         const percentage = Math.round(
             completed / totalCamos * 100
@@ -496,7 +779,7 @@ function renderWeapons(category, guns) {
     "PM-40 Anvil": "./assets/images/weapons/launchers/MW4_anvil.png",
     "JOKR": "./assets/images/weapons/launchers/MW4_jokr.png",
     "PILA": "./assets/images/weapons/launchers/MW4_pila.png",
-    "RPG-8": "./assets/images/weapons/launchers/MW4_rpg.png",
+    "RPG-7": "./assets/images/weapons/launchers/MW4_rpg.png",
 
     // LMGs
     "APOC-338": "./assets/images/weapons/lmgs/MW4_apoc.png",
@@ -529,7 +812,7 @@ function renderWeapons(category, guns) {
     "VEL 46": "./assets/images/weapons/smgs/MW4_vel.png",
 
     // Sniper Rifles
-    "Astaroth .57": "./assets/images/weapons/sniper-rifles/MW4_astaroth.png",
+    "Astaroth .50": "./assets/images/weapons/sniper-rifles/MW4_astaroth.png",
     "Signal 50": "./assets/images/weapons/sniper-rifles/MW4_signal50.png",
     "KG-7 Vulcan": "./assets/images/weapons/sniper-rifles/MW4_vulcan.png"
 };
@@ -644,7 +927,7 @@ function renderCategories(search = "") {
 
                 const weaponName = weapon.name || weapon;
 
-                return sum + getWeaponCamos(weaponName).length;
+                return sum + getWeaponCamos(weaponName, group.category).length;
 
             },
             0
@@ -716,7 +999,7 @@ function updateStatistics() {
 
         const weaponName = weapon.name || weapon;
 
-        return sum + getWeaponCamos(weaponName).length;
+        return sum + getWeaponCamos(weaponName, group.category).length;
 
     }, 0);
 
@@ -743,7 +1026,10 @@ function updateStatistics() {
                 startedWeapons++;
             }
 
-            const totalCamos = getWeaponCamos(weaponName).length;
+            const totalCamos = getWeaponCamos(
+                weaponName,
+                group.category
+            ).length;
 
 if (completed === totalCamos) {
     completedWeapons++;
@@ -782,7 +1068,7 @@ if (completed === totalCamos) {
 
 function updateWeaponDisplay(category, weapon, weaponElement) {
 
-    const totalCamos = getWeaponCamos(weapon).length;
+    const totalCamos = getWeaponCamos(weapon, category).length;
 
     const completed = getCompletedCamos(
         category,
@@ -838,7 +1124,7 @@ document.addEventListener("change", event => {
         ".weapon-type"
     ).textContent.trim();
 
-    const weaponCamos = getWeaponCamos(weaponName);
+    const weaponCamos = getWeaponCamos(weaponName, categoryName);
 
     const camoIndex = weaponCamos.findIndex((camo, index) => {
 
@@ -907,7 +1193,7 @@ document.addEventListener("change", event => {
             ).textContent.trim();
 
             completed += getCompletedCamos(category, name);
-            total += getWeaponCamos(name).length;
+            total += getWeaponCamos(name, category).length;
 
         });
 
