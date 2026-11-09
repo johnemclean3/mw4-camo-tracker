@@ -1,18 +1,19 @@
 
 :root {
-    --background: #090d0b;
-    --panel: #101713;
-    --panel-hover: #172219;
+    --background: #080908;
+    --panel: #141512;
+    --panel-hover: #22231e;
 
-    --green: #a6ff6b;
-    --green-dark: #6fba42;
+    /* MW Yellow */
+    --green: #f2c400;
+    --green-dark: #b99a16;
 
-    --yellow: #f3d34a;
+    --yellow: #f2c400;
 
-    --text: #edf4eb;
-    --muted: #879487;
+    --text: #f0f0e9;
+    --muted: #96958c;
 
-    --border: #26352b;
+    --border: #34352f;
 }
 
 * {
@@ -24,12 +25,7 @@
 html {
     margin: 0;
     min-height: 100%;
-    background-color: #090d0b;
-    /* background: radial-gradient(
-        ellipse at 50% -15%,
-        #1a2b1d 0%,
-        #090d0b 52%
-    ); */
+    background-color: var(--background);
     color-scheme: dark;
 }
 
@@ -37,12 +33,7 @@ body {
     margin: 0;
     min-height: 100vh;
     min-height: 100svh;
-    background: #090d0b;
-    /* background: radial-gradient(
-        ellipse at 50% -15%,
-        #1a2b1d 0%,
-        #090d0b 52% 
-    );*/
+    background: var(--background);
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -62,7 +53,9 @@ button {
     padding: 30px 22px 70px;
 }
 
-/* HEADER */
+/* =====================================
+   HEADER
+===================================== */
 
 .header {
     display: flex;
@@ -94,10 +87,10 @@ button {
     font-weight: 900;
     letter-spacing: 1px;
 
-    color: #c8ff00;
-    background: #111914;
+    color: #f2c400;
+    background: #141512;
 
-    border: 1px solid rgba(200, 255, 0, 0.35);
+    border: 1px solid rgba(242, 196, 0, 0.4);
     border-radius: 6px;
 
     flex-shrink: 0;
@@ -109,7 +102,9 @@ button {
     letter-spacing: 2px;
 }
 
-/* HERO */
+/* =====================================
+   HERO
+===================================== */
 
 .hero {
     padding: 45px 0 30px;
@@ -140,7 +135,9 @@ button {
     font-size: 14px;
 }
 
-/* STATISTICS */
+/* =====================================
+   STATISTICS
+===================================== */
 
 .stats {
     display: grid;
@@ -153,8 +150,8 @@ button {
 .stat-card {
     background: linear-gradient(
         145deg,
-        #152019,
-        #0e1410
+        #1c1d19,
+        #111210
     );
 
     border: 1px solid var(--border);
@@ -180,7 +177,7 @@ button {
     width: 100%;
     height: 5px;
 
-    background: #263229;
+    background: #34352f;
 
     border-radius: 10px;
     overflow: hidden;
@@ -197,7 +194,9 @@ button {
     transition: width 0.3s ease;
 }
 
-/* TOOLBAR */
+/* =====================================
+   TOOLBAR
+===================================== */
 
 .toolbar {
     display: flex;
@@ -242,10 +241,12 @@ button {
     color: var(--yellow);
 }
 
-/* CATEGORY */
+/* =====================================
+   CATEGORY
+===================================== */
 
 .category {
-    background: #0e1510;
+    background: #111210;
 
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -280,7 +281,7 @@ button {
     display: grid;
     place-items: center;
 
-    background: #1a291d;
+    background: #292a23;
     color: var(--green);
 
     border-radius: 7px;
@@ -313,12 +314,14 @@ button {
     border-top: 1px solid var(--border);
 }
 
-/* WEAPONS */
+/* =====================================
+   WEAPONS
+===================================== */
 
 .weapon {
-    background: #111913;
+    background: #181915;
 
-    border: 1px solid #26352b;
+    border: 1px solid var(--border);
     border-radius: 8px;
 
     margin-bottom: 8px;
@@ -345,24 +348,37 @@ button {
 }
 
 .weapon-image {
-    width: 65px;
-    height: 42px;
+    width: 130px;
+    height: 65px;
 
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    flex-shrink: 0;
 
     background: linear-gradient(
         135deg,
-        #26382a,
-        #101711
+        #303129,
+        #111210
     );
 
-    border: 1px solid #344b37;
+    border: 1px solid #414139;
     border-radius: 5px;
 
     color: var(--green);
     font-size: 10px;
     font-weight: bold;
+}
+
+.weapon-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
 }
 
 .weapon-info {
@@ -399,7 +415,7 @@ button {
 .mini-progress {
     height: 4px;
 
-    background: #29352c;
+    background: #34352f;
 
     border-radius: 5px;
     overflow: hidden;
@@ -412,10 +428,12 @@ button {
     background: var(--green);
 }
 
-/* CHALLENGES */
+/* =====================================
+   CHALLENGES
+===================================== */
 
 .challenge-area {
-    background: #0c120e;
+    background: #10110f;
 
     border-top: 1px solid var(--border);
 
@@ -435,9 +453,9 @@ button {
 
     padding: 10px;
 
-    background: #121a14;
+    background: #1b1c18;
 
-    border: 1px solid #253329;
+    border: 1px solid #34352f;
     border-radius: 7px;
 
     cursor: pointer;
@@ -455,10 +473,10 @@ button {
 
     flex-shrink: 0;
 
-    border: 1px solid #60715f;
+    border: 1px solid #77766c;
     border-radius: 4px;
 
-    background: #0a100c;
+    background: #080908;
 
     cursor: pointer;
 }
@@ -473,7 +491,7 @@ button {
 
     display: block;
 
-    color: #090d0b;
+    color: #080908;
 
     font-weight: bold;
     text-align: center;
@@ -482,7 +500,7 @@ button {
 
 .challenge:has(input:checked) {
     border-color: var(--green-dark);
-    background: #172319;
+    background: #292a23;
 }
 
 .camo-image {
@@ -495,9 +513,9 @@ button {
 
     background: repeating-linear-gradient(
         135deg,
-        #65785a 0 4px,
-        #24372b 4px 8px,
-        #a2ad83 8px 10px
+        #77766c 0 4px,
+        #292a25 4px 8px,
+        #aaa99d 8px 10px
     );
 }
 
@@ -524,7 +542,9 @@ button {
     letter-spacing: 1px;
 }
 
-/* FOOTER */
+/* =====================================
+   FOOTER
+===================================== */
 
 footer {
     display: flex;
@@ -541,7 +561,9 @@ footer {
     letter-spacing: 1px;
 }
 
-/* RESPONSIVE */
+/* =====================================
+   RESPONSIVE
+===================================== */
 
 @media (max-width: 650px) {
 
@@ -577,29 +599,3 @@ footer {
         font-size: 8px;
     }
 }
-
-/* =====================================
-   WEAPON IMAGES
-===================================== */
-
-.weapon-image {
-    width: 130px;
-    height: 65px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.weapon-image img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    display: block;
-}
-
