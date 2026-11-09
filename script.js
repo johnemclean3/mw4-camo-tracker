@@ -179,7 +179,7 @@ const specialCamos = {
         }
     ],
 
-    "Patriot XMR": [
+    "Kastov 762": [
         {
             name: "Samnim",
             description: "Get 20 hip fire kills.",
@@ -197,7 +197,7 @@ const specialCamos = {
         }
     ],
 
-    "Kastov 762": [
+    "Patriot XMR": [
         {
             name: "Dune Sea",
             description: "Get 3 kills without dying 10 times.",
