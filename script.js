@@ -119,7 +119,7 @@ const weapons = [
 
 const baseCamo = {
     name: "Military Camos",
-    description: "Complete the base weapon camo challenge.",
+    description: "Complete all weapon levels.",
     type: "BASE"
 };
 
