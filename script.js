@@ -1098,7 +1098,6 @@ function updateWeaponDisplay(category, weapon, weaponElement) {
 
 }
 
-
 /* =====================================
    CHECKBOX EVENTS
 ===================================== */
@@ -1124,7 +1123,10 @@ document.addEventListener("change", event => {
         ".weapon-type"
     ).textContent.trim();
 
-    const weaponCamos = getWeaponCamos(weaponName, categoryName);
+    const weaponCamos = getWeaponCamos(
+        weaponName,
+        categoryName
+    );
 
     const camoIndex = weaponCamos.findIndex((camo, index) => {
 
@@ -1138,30 +1140,134 @@ document.addEventListener("change", event => {
 
     if (camoIndex === -1) return;
 
-    // Apply progression hierarchy.
-    weaponCamos.forEach((camo, index) => {
+    // =====================================
+    // CAMO INDEXES
+    // =====================================
 
-        const camoId = getCamoId(
-            categoryName,
-            weaponName,
-            index
-        );
+    const militaryIndex = 0;
 
-        const shouldBeChecked = checkbox.checked
-            ? index <= camoIndex
-            : index < camoIndex;
+    const specialStartIndex = 1;
+    const masteryStartIndex = 4;
 
-        progress[camoId] = shouldBeChecked;
+    // =====================================
+    // SPECIALTY CAMO LOGIC
+    // =====================================
 
-        const relatedCheckbox = weaponElement.querySelector(
-            `input[data-camo-id="${CSS.escape(camoId)}"]`
-        );
+    if (
+        camoIndex >= specialStartIndex &&
+        camoIndex < masteryStartIndex
+    ) {
 
-        if (relatedCheckbox) {
-            relatedCheckbox.checked = shouldBeChecked;
+        // Checking any specialty camo completes
+        // Military Camos automatically.
+        if (checkbox.checked) {
+
+            const militaryId = getCamoId(
+                categoryName,
+                weaponName,
+                militaryIndex
+            );
+
+            progress[militaryId] = true;
+
+            const militaryCheckbox = weaponElement.querySelector(
+                `input[data-camo-id="${CSS.escape(militaryId)}"]`
+            );
+
+            if (militaryCheckbox) {
+                militaryCheckbox.checked = true;
+            }
+
         }
 
-    });
+        // Specialty camos are independent.
+        // They can be checked or unchecked freely.
+        progress[id] = checkbox.checked;
+
+    }
+
+    // =====================================
+    // MILITARY CAMO LOGIC
+    // =====================================
+
+    else if (camoIndex === militaryIndex) {
+
+        // Do not allow Military Camos to be unchecked
+        // while any specialty or mastery camo is completed.
+        const laterCamosCompleted = weaponCamos.some(
+            (camo, index) => {
+
+                return index > militaryIndex &&
+                    progress[getCamoId(
+                        categoryName,
+                        weaponName,
+                        index
+                    )];
+
+            }
+        );
+
+        if (!checkbox.checked && laterCamosCompleted) {
+
+            checkbox.checked = true;
+            return;
+
+        }
+
+        progress[id] = checkbox.checked;
+
+    }
+
+    // =====================================
+    // MASTERY CAMO LOGIC
+    // =====================================
+
+    else if (camoIndex >= masteryStartIndex) {
+
+        weaponCamos.forEach((camo, index) => {
+
+            if (index < masteryStartIndex) return;
+
+            const camoId = getCamoId(
+                categoryName,
+                weaponName,
+                index
+            );
+
+            const shouldBeChecked = checkbox.checked
+                ? index <= camoIndex
+                : index < camoIndex;
+
+            progress[camoId] = shouldBeChecked;
+
+            const relatedCheckbox = weaponElement.querySelector(
+                `input[data-camo-id="${CSS.escape(camoId)}"]`
+            );
+
+            if (relatedCheckbox) {
+                relatedCheckbox.checked = shouldBeChecked;
+            }
+
+        });
+
+        // Mastery completion also requires Military Camos.
+        const militaryId = getCamoId(
+            categoryName,
+            weaponName,
+            militaryIndex
+        );
+
+        progress[militaryId] = true;
+
+        const militaryCheckbox = weaponElement.querySelector(
+            `input[data-camo-id="${CSS.escape(militaryId)}"]`
+        );
+
+        if (militaryCheckbox) {
+            militaryCheckbox.checked = true;
+        }
+
+    }
 
     saveProgress();
 
@@ -1214,7 +1320,6 @@ document.addEventListener("change", event => {
     updateStatistics();
 
 });
-
 
 /* =====================================
    SEARCH
