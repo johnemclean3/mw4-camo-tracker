@@ -591,6 +591,7 @@ footer {
 
     .weapon-image {
         width: 100px;
+        height: 65px;
     }
 
     .weapon-progress {
